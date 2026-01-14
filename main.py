@@ -5,8 +5,8 @@ datatable = pd.DataFrame()
 st.set_page_config(page_title = "Homework Tracker", page_icon = "📚")
 st.title("Homework Tracker")
 # Save previous submissions
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "tasks" not in st.session_state:
+    st.session_state.tasks = []
 
 assignment = st.text_area("Assignment Name: ")
 subject = st.text_area("Class Name: ")
@@ -16,13 +16,13 @@ if st.button("Add to Task List"):
     if assignment.strip() == "" or subject.strip() == "":
         st.warning("Please enter some text.")
     else:
-        st.session_state.history.append({"Assignment" : assignment, "Subject" : subject, "Due Date" : due})
+        st.session_state.tasks.append({"Assignment" : assignment, "Subject" : subject, "Due Date" : due})
         st.write("Task Added")
 
 # Show the final table.
 if st.button("Show Task List"):
     st.subheader("Homework To Do In Order")
-    datatable = pd.DataFrame(st.session_state.history)
+    datatable = pd.DataFrame(st.session_state.tasks)
     # st.write(datatable)
     datatable = datatable.sort_values("Due Date") # Sort the table
     st.dataframe(datatable)
